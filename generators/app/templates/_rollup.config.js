@@ -37,19 +37,24 @@ function generateImports(obj) {
 }
 
 function generateComponentRegistering(components, ns) {
-  let registering = "const __ns = GrimoireInterface.ns('" + ns + "');\n";
+  let registering = "const __ns1 = GrimoireInterface.ns('" + ns + "');\n";
   for (let key in components) {
-    registering += 'GrimoireInterface.registerComponent(__ns("' + key + '"),' + key + ");\n";
+    registering += 'GrimoireInterface.registerComponent(__ns1("' + key + '"),' + key + ");\n";
   }
   return registering;
 }
 
 function generateConverterRegistering(converters, ns) {
-  let registering = "const __ns = GrimoireInterface.ns('" + ns + "');\n";
+  let registering = "const __ns2= GrimoireInterface.ns('" + ns + "');\n";
   const regex = /(.+)Converter$/mi;
   for (let key in converters) {
-    registering += 'GrimoireInterface.registerComponent(__ns("' + key.replace(regex, "$1") + '"),' + key + ");\n";
+    registering += 'GrimoireInterface.registerComponent(__ns2("' + key.replace(regex, "$1") + '"),' + key + ");\n";
   }
+  return registering;
+}
+
+function generateNodeRegistering(nodes, ns) {
+
 }
 
 function build(imports, components, converters, nodes) {
@@ -61,7 +66,8 @@ function build(imports, components, converters, nodes) {
         delimiters: ['//<%=', '%>'],
         values: {
           PLUGIN_REGISTERER_IMPORTS: imports,
-          PLUGIN_COMPONENT_REGISTERER_RESOLVING: components
+          PLUGIN_COMPONENT_REGISTERER_RESOLVING: components,
+          PLUGIN_CONVERTER_REGISTERER_RESOLVING: converters
         }
       }),
       typescript(),
@@ -89,8 +95,8 @@ fs.readFile('./src/grimoire.json', 'utf-8', (err, text) => {
   }, err => {
     console.error(err);
   }).then(res => {
-    converter = res;
-    build(generateImports(components), generateComponentRegistering(components, generatorInfo.namespace),generateConverterRegistering(converters,generatorInfo.namespace));
+    converters = res;
+    build(generateImports(components) + generateImports(converters), generateComponentRegistering(components, generatorInfo.namespace), generateConverterRegistering(converters, generatorInfo.namespace), generateNodeRegistering(generatorInfo.nodes));
   }, err => {
     console.error(err);
   })
