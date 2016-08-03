@@ -16,13 +16,12 @@ module.exports = yeoman.Base.extend({
       name: 'name',
       message: 'What you name this addon?',
       default: 'sample'
-    },
-    {
-      type:'input',
-      name:'namespace',
-      message:'What is the default namespace of this addon?',
-      default:'HTTP://GRIMOIRE.GL/NS/CUSTOM'
-    },{
+    }, {
+      type: 'input',
+      name: 'namespace',
+      message: 'What is the default namespace of this addon?',
+      default: 'HTTP://GRIMOIRE.GL/NS/CUSTOM'
+    }, {
       type: 'input',
       name: 'desc',
       message: 'Give us short description of your addon',
@@ -38,10 +37,22 @@ module.exports = yeoman.Base.extend({
       message: 'Would you like to generate samples?',
       default: true
     }];
-
+    const _this = this;
     return this.prompt(prompts).then(function(props) {
-      this.props = props;
-    }.bind(this));
+      _this.props = props;
+      if (_this.props.generateSample) {
+        return _this.prompt([{ // Ask only if generateSample was true
+          type: 'confirm',
+          name: 'includeConverter',
+          message: 'Would you like to include a sample of custom converters?',
+          default: false
+        }]);
+      }
+    }).then(function(props) {
+      if (props) {
+        _this.props.includeConverter = props.includeConverter;
+      }
+    });
   },
 
   writing: function() {
@@ -51,8 +62,8 @@ module.exports = yeoman.Base.extend({
     this.fs.copy(this.templatePath('_rollup.config.js'), this.destinationPath('rollup.config.js'));
     this.fs.copy(this.templatePath('_.babelrc'), this.destinationPath('.babelrc'));
     this.fs.copy(this.templatePath('./src/index.ts'), this.destinationPath('./src/index.ts'));
-    this.fs.copyTpl(this.templatePath('./src/grimoire.json'),this.destinationPath('./src/grimoire.json'),{
-      namespace:this.props.namespace
+    this.fs.copyTpl(this.templatePath('./src/grimoire.json'), this.destinationPath('./src/grimoire.json'), {
+      namespace: this.props.namespace
     });
     this.fs.copy(this.templatePath('_tsconfig.json'), this.destinationPath('tsconfig.json'));
     this.fs.copyTpl(this.templatePath('_package.json'), this.destinationPath('package.json'), {
@@ -60,10 +71,18 @@ module.exports = yeoman.Base.extend({
       desc: this.props.desc,
       repo: this.props.repo
     });
+    if (this.props.generateSample) {
+      if (this.props.includeConverter) {
+        mkdirp.sync(this.destinationPath("./src/Converter"));
+        this.fs.copy(this.templatePath('./src/Converter/SampleConverter.ts'), this.destinationPath('./src/Converter/SampleConverter.ts'));
+      }
+      mkdirp.sync(this.destinationPath("./src/Component"));
+      this.fs.copy(this.templatePath('./src/Component/SampleComponent.ts'), this.destinationPath('./src/Component/SampleComponent.ts'));
+    }
   },
 
   install: function() {
-    this.npmInstall(['gulp', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel','rollup-plugin-replace', 'babel-preset-es2015-rollup', 'babel-preset-stage-2','glob'], {
+    this.npmInstall(['gulp', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'babel-preset-es2015-rollup', 'babel-preset-stage-2', 'glob'], {
       'saveDev': true
     });
     this.installDependencies();
