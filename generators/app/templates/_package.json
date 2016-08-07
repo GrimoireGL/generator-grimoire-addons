@@ -6,13 +6,12 @@
   "keywords": [
     "grimoire.js"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
   },
   "repository": "<%= repo %>",
   "scripts": {
-    "build":"node rollup.config.js"
+    "build": "babel-node rollup.config.js --presets es2015,stage-2 --plugins transform-runtime"
   },
   "license": "MIT"
 }

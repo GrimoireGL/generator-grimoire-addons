@@ -58,6 +58,7 @@ module.exports = yeoman.Base.extend({
   writing: function() {
     mkdirp.sync(this.destinationPath("./src"));
     mkdirp.sync(this.destinationPath("./test"));
+    this.directory('build', 'build');
     this.fs.copyTpl(this.templatePath('_.gitignore'), this.destinationPath('.gitignore'));
     this.fs.copy(this.templatePath('_rollup.config.js'), this.destinationPath('rollup.config.js'));
     this.fs.copy(this.templatePath('_.babelrc'), this.destinationPath('.babelrc'));
@@ -82,7 +83,7 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function() {
-    this.npmInstall(['gulp', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'babel-preset-es2015-rollup', 'babel-preset-stage-2', 'glob'], {
+    this.npmInstall(['babel-cli', 'babel-core@6.13.0', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'babel-preset-es2015@6.13.0', 'babel-preset-es2015-rollup', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars','chalk'], {
       'saveDev': true
     });
     this.installDependencies();

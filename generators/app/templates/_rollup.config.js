@@ -1,103 +1,88 @@
-const rollup = require("rollup");
-const typescript = require('rollup-plugin-typescript');
-const babel = require('rollup-plugin-babel');
-const replace = require('rollup-plugin-replace');
-const fs = require('fs');
-const glob = require('glob');
-const path = require('path');
+import babelHelpers from 'babel-helpers';
+import {
+    glob
+} from './build/globAsync';
+import {
+    readFileAsync,
+    templateAsync
+} from './build/fsAsync';
+import {
+    getFileNameBody,
+    getRelativePath
+} from './build/pathUtil';
+import {
+    rollup
+} from 'rollup';
+import typescript from 'rollup-plugin-typescript';
+import babel from 'rollup-plugin-babel';
+import replace from 'rollup-plugin-replace';
+import chalk from 'chalk';
 
-function transformIntoFileNames(files) {
-  const names = {};
-  const regex = /(.+)\.([^\.]*)$/m;
-  const obtainRelativePath = /.*\/([^\/]*)$/m;
-  for (var i = 0; i < files.length; i++) {
-    const filePath = files[i];
-    const baseName = path.basename(files[i]);
-    const name = baseName.replace(regex, "$1");
-    names[name] = filePath.replace(obtainRelativePath, "./$1");
-  }
-  return names;
-}
-
-function obtainGlob(src) {
-  return new Promise((resolve, reject) => {
-    glob(src, (er, files) => {
-      resolve(transformIntoFileNames(files));
+const buildTask = (imports, register) => {
+    return rollup({
+        entry: './src/index.ts',
+        dest: './lib/index.js',
+        plugins: [
+            replace({
+                include: './src/index.ts',
+                delimiters: ['//<%=', '%>'],
+                values: {
+                    IMPORTS: imports,
+                    REGISTER: register
+                }
+            }),
+            typescript(),
+            babel({
+                presets: ["es2015-rollup"]
+            })
+        ]
     });
-  });
-}
+};
 
-function generateImports(obj) {
-  let imports = "";
-  for (let key in obj) {
-    const path = obj[key];
-    imports += "import " + key + ' from "' + path + '";\n';
-  }
-  return imports;
-}
 
-function generateComponentRegistering(components, ns) {
-  let registering = "const __ns1 = GrimoireInterface.ns('" + ns + "');\n";
-  for (let key in components) {
-    registering += 'GrimoireInterface.registerComponent(__ns1("' + key + '"),' + key + ");\n";
-  }
-  return registering;
-}
+const main = async() => {
+    const config = JSON.parse(await readFileAsync("./package.json"));
 
-function generateConverterRegistering(converters, ns) {
-  let registering = "const __ns2= GrimoireInterface.ns('" + ns + "');\n";
-  const regex = /(.+)Converter$/mi;
-  for (let key in converters) {
-    registering += 'GrimoireInterface.registerComponent(__ns2("' + key.replace(regex, "$1") + '"),' + key + ");\n";
-  }
-  return registering;
-}
-
-function generateNodeRegistering(nodes, ns) {
-
-}
-
-function build(imports, components, converters, nodes) {
-  rollup.rollup({
-    entry: './src/index.ts',
-    dest: './lib/index.js',
-    plugins: [
-      replace({
-        delimiters: ['//<%=', '%>'],
-        values: {
-          PLUGIN_REGISTERER_IMPORTS: imports,
-          PLUGIN_COMPONENT_REGISTERER_RESOLVING: components,
-          PLUGIN_CONVERTER_REGISTERER_RESOLVING: converters
-        }
-      }),
-      typescript(),
-      babel({
-        presets: ["es2015-rollup"]
-      })
-    ]
-  }).then(bundle => {
+    config.grimoire = config.grimoire ? config.grimoire : {};
+    // glob component files
+    const componentFiles = await glob('./src/**/*Component.ts');
+    const components = componentFiles.map(v => {
+        return {
+            key: getFileNameBody(v),
+            path: getRelativePath(v)
+        };
+    });
+    // glob converter files
+    const converterFiles = await glob('./src/**/*Converter.ts');
+    const converters = converterFiles.map(v => {
+        return {
+            key: getFileNameBody(v),
+            path: getRelativePath(v)
+        };
+    });
+    const imports = await templateAsync("./build/templates/imports.template", {
+        components: components,
+        converters: converters
+    });
+    const register = await templateAsync("./build/templates/register.template", {
+        namespace: config.grimoire.namespace ? config.grimoire.namespace : "HTTP://GRIMOIRE.GL/NS/USER",
+        components: components,
+        converters: converters
+    });
+    let bundle = null;
+    try {
+        bundle = await buildTask(imports, register);
+    } catch (e) {
+        console.error(chalk.white.bgRed("COMPILATION FAILED"));
+        console.error(chalk.red(e));
+        console.error(chalk.yellow(e.stack));
+        return;
+    }
+    console.log(chalk.white.bgBlue("COMPILATION SUCCESS"));
     bundle.write({
-      format: 'cjs',
-      dest: './product/index.js'
+        format: 'cjs',
+        dest: './product/index.js'
     });
-  }).catch(err => {
-    console.error(err);
-  });
 }
 
-
-fs.readFile('./src/grimoire.json', 'utf-8', (err, text) => {
-  const generatorInfo = JSON.parse(text);
-  let components, nodes, converters;
-  obtainGlob("./src/**/*Component.ts").then(res => {
-    components = res;
-    return obtainGlob("./src/**/*Converter.ts");
-  }, err => {
-    console.error(err);
-  }).then(res => {
-    converters = res;
-    build(generateImports(components) + generateImports(converters), generateComponentRegistering(components, generatorInfo.namespace), generateConverterRegistering(converters, generatorInfo.namespace), generateNodeRegistering(generatorInfo.nodes));
-  }, err => {
-    console.error(err);
-  })
-});
+main();
