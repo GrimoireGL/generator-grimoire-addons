@@ -1,6 +1,4 @@
-import Component from "grimoirejs/Component";
-
-class SampleComponent extends Component {
+class SampleComponent {
   public static attributes = {
     test: {
       converter: "string",

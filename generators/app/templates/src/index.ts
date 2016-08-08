@@ -1,7 +1,7 @@
 //
 // DO NOT REMOVE THE LINE BELOW.
 //
-import GrimoireInterface from 'grimoirejs';
+declare var GrimoireInterface:any;
 //<%=IMPORTS%>
 
 GrimoireInterface.register(async () => {
