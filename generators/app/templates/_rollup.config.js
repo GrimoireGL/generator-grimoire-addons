@@ -17,6 +17,7 @@ import {
 import typescript from 'rollup-plugin-typescript';
 import babel from 'rollup-plugin-babel';
 import replace from 'rollup-plugin-replace';
+import npm from 'rollup-plugin-node-resolve';
 import chalk from 'chalk';
 
 const buildTask = (imports, register) => {
@@ -33,6 +34,9 @@ const buildTask = (imports, register) => {
         }
       }),
       typescript(),
+      npm({
+        browser: true
+      }),
       babel({
         presets: ["es2015-rollup"]
       })

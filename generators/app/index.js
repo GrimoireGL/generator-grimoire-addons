@@ -83,7 +83,7 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function() {
-    this.npmInstall(['babel-cli', 'babel-core@6.13.0', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'babel-preset-es2015@6.13.0', 'babel-preset-es2015-rollup', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars','chalk','wrench'], {
+    this.npmInstall(['babel-cli', 'babel-core@6.13.0', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace','rollup-plugin-node-resolve', 'babel-preset-es2015@6.13.0', 'babel-preset-es2015-rollup', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars','chalk','wrench'], {
       'saveDev': true
     });
     this.installDependencies();
