@@ -2,7 +2,8 @@
   "name": "<%= name %>",
   "version": "0.0.0",
   "description": "<%= desc %>",
-  "main": "src/index.js",
+  "main": "product/index.js",
+  "typings":"dist/index.ts",
   "keywords": [
     "grimoire.js"
   ],
