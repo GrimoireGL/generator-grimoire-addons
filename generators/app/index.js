@@ -60,6 +60,7 @@ module.exports = yeoman.Base.extend({
     mkdirp.sync(this.destinationPath("./test"));
     this.directory('build', 'build');
     this.fs.copyTpl(this.templatePath('_.gitignore'), this.destinationPath('.gitignore'));
+    this.fs.copyTpl(this.templatePath('_.npmignore'), this.destinationPath('.npmignore'));
     this.fs.copy(this.templatePath('_rollup.config.js'), this.destinationPath('rollup.config.js'));
     this.fs.copy(this.templatePath('./src/index.ts'), this.destinationPath('./src/index.ts'));
     this.fs.copyTpl(this.templatePath('./src/grimoire.json'), this.destinationPath('./src/grimoire.json'), {
