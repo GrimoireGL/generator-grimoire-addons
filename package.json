@@ -1,6 +1,6 @@
 {
   "name": "generator-grimoire-addons",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The generator to generate Grimoire.js addons",
   "homepage": "http://grimoire.gl",
   "author": {
