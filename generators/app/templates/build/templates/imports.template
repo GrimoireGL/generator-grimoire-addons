@@ -1,3 +1,6 @@
+{{#each externals}}
+  import {{path}};
+{{/each}}
 {{#each components}}
   import {{key}} from "{{path}}";
 {{/each}}

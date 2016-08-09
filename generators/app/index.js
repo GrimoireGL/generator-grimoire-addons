@@ -56,17 +56,17 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function() {
+    // generating folders
     mkdirp.sync(this.destinationPath("./src"));
     mkdirp.sync(this.destinationPath("./test"));
+    // copy directories would be used as build scripts
     this.directory('build', 'build');
-    this.fs.copyTpl(this.templatePath('_.gitignore'), this.destinationPath('.gitignore'));
-    this.fs.copyTpl(this.templatePath('_.npmignore'), this.destinationPath('.npmignore'));
+
     this.fs.copy(this.templatePath('_rollup.config.js'), this.destinationPath('rollup.config.js'));
     this.fs.copy(this.templatePath('./src/index.ts'), this.destinationPath('./src/index.ts'));
-    this.fs.copyTpl(this.templatePath('./src/grimoire.json'), this.destinationPath('./src/grimoire.json'), {
-      namespace: this.props.namespace
-    });
     this.fs.copy(this.templatePath('_tsconfig.json'), this.destinationPath('tsconfig.json'));
+    this.fs.copy(this.templatePath('_.gitignore'), this.destinationPath('.gitignore'));
+    this.fs.copy(this.templatePath('_.npmignore'), this.destinationPath('.npmignore'));
     this.fs.copyTpl(this.templatePath('_package.json'), this.destinationPath('package.json'), {
       name: this.props.name,
       desc: this.props.desc,
