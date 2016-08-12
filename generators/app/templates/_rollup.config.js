@@ -15,76 +15,46 @@ import {
 import {
     rollup
 } from 'rollup';
-import typescript from 'rollup-plugin-typescript';
-import replace from 'rollup-plugin-replace';
 import npm from 'rollup-plugin-node-resolve';
 import builtin from 'rollup-plugin-node-builtins';
 import commonjs from 'rollup-plugin-commonjs';
 import globals from 'rollup-plugin-node-globals';
 import chalk from 'chalk';
+import generate from './build/generate-index';
 
-const buildTask = (imports, register) => {
-    return rollup({
-        entry: './src/index.ts',
-        dest: './lib/index.js',
-        plugins: [
-            replace({
-                include: './src/index.ts',
-                delimiters: ['//<%=', '%>'],
-                values: {
-                    IMPORTS: imports,
-                    REGISTER: register
-                }
-            }),
-            typescript(),
-            builtin(),
-            npm({
-                jsnext: true,
-                main: true,
-                browser: true
-            }),
-            commonjs({
-                ignoreGlobal: true,
-                exclude: ["node_modules/rollup-plugin-node-builtins/**","node_modules/rollup-plugin-node-globals/**"] // https://github.com/calvinmetcalf/rollup-plugin-node-builtins/issues/5
-            }), globals()
-        ]
+const buildTask = () => {
+    return new Promise((resolve, reject) => {
+        rollup({
+            entry: './lib/index.js',
+            plugins: [
+                builtin(),
+                npm({
+                    jsnext: true,
+                    main: true,
+                    browser: true
+                }),
+                commonjs({
+                    ignoreGlobal: true,
+                    exclude: ["node_modules/rollup-plugin-node-builtins/**", "node_modules/rollup-plugin-node-globals/**"] // https://github.com/calvinmetcalf/rollup-plugin-node-builtins/issues/5
+                }), globals()
+            ]
+        }).then(bundle => {
+            resolve(bundle);
+        }).catch(err => {
+            reject(err);
+        });
     });
 };
 
 
 const main = async() => {
     const config = JSON.parse(await readFileAsync("./package.json"));
-
     config.grimoire = config.grimoire ? config.grimoire : {};
-    // glob component files
-    const componentFiles = await glob('./src/**/*Component.ts');
-    const components = componentFiles.map(v => {
-        return {
-            key: getFileNameBody(v),
-            path: getRelativePath(v)
-        };
-    });
-    // glob converter files
-    const converterFiles = await glob('./src/**/*Converter.ts');
-    const converters = converterFiles.map(v => {
-        return {
-            key: getFileNameBody(v),
-            path: getRelativePath(v)
-        };
-    });
-    const imports = await templateAsync("./build/templates/imports.template", {
-        externals: config.grimoire.dependencies,
-        components: components,
-        converters: converters
-    });
-    const register = await templateAsync("./build/templates/register.template", {
-        namespace: config.grimoire.namespace ? config.grimoire.namespace : "HTTP://GRIMOIRE.GL/NS/USER",
-        components: components,
-        converters: converters
-    });
+    await generate(config);
+    await execAsync("npm run compile");
     let bundle = null;
     try {
-        bundle = await buildTask(imports, register);
+        bundle = await buildTask();
     } catch (e) {
         console.error(chalk.white.bgRed("COMPILATION FAILED"));
         console.error(chalk.red(e));
