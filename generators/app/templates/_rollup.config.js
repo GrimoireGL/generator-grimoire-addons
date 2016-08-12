@@ -8,7 +8,8 @@ import {
 } from './build/pathUtil';
 import {
   readFileAsync,
-  templateAsync
+  templateAsync,
+  execAsync
 } from './build/fsAsync';
 
 import {
@@ -18,7 +19,6 @@ import typescript from 'rollup-plugin-typescript';
 import replace from 'rollup-plugin-replace';
 import npm from 'rollup-plugin-node-resolve';
 import chalk from 'chalk';
-import exec from 'exec';
 
 const buildTask = (imports, register) => {
   return rollup({
@@ -86,7 +86,8 @@ const main = async() => {
     format: 'cjs',
     dest: './product/index.es2016.js'
   });
-  exec("babel ./product/index.es2016.js --out-file ./product/index.js");
+
+  await execAsync("babel ./product/index.es2016.js --out-file ./product/index.js");
 }
 
 main();

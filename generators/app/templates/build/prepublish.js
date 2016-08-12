@@ -3,7 +3,8 @@ import {
   readFileAsync,
   writeFileAsync,
   templateAsync,
-  unlinkAsync
+  unlinkAsync,
+  execAsync
 } from './fsAsync';
 import {
   glob
@@ -14,8 +15,8 @@ import {
 } from './pathUtil';
 
 const main = async() => {
-  await copyDirAsync('./src', './dist');
-  let index = await readFileAsync('./dist/index.ts');
+  await copyDirAsync('./src', './lib-ts');
+  let index = await readFileAsync('./lib-ts/index.ts');
   const config = JSON.parse(await readFileAsync("./package.json"));
 
   config.grimoire = config.grimoire ? config.grimoire : {};
@@ -47,9 +48,9 @@ const main = async() => {
   });
   index = index.replace(/^\s*\/\/\<\%\=IMPORTS\%\>\s*$/m, imports);
   index = index.replace(/^\s*\/\/\<\%\=REGISTER\%\>\s*$/m, register);
-  console.log(index);
-  await unlinkAsync('./dist/index.ts');
-  await writeFileAsync('./dist/index.ts', index);
+  await unlinkAsync('./lib-ts/index.ts');
+  await writeFileAsync('./lib-ts/index.ts', index);
+  await execAsync("tsc-glob --declaration --outDir ./lib -m es6 -t es6 --files-glob ./lib-ts/*.ts");
 };
 
 main();
