@@ -1,3 +1,4 @@
+/// <reference path="../src/typings/index.d.ts"/>
 //
 // DO NOT REMOVE THE LINE BELOW.
 //

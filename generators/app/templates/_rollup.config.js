@@ -22,7 +22,6 @@ import builtin from 'rollup-plugin-node-builtins';
 import commonjs from 'rollup-plugin-commonjs';
 import globals from 'rollup-plugin-node-globals';
 import chalk from 'chalk';
-import exec from 'exec';
 
 const buildTask = (imports, register) => {
     return rollup({

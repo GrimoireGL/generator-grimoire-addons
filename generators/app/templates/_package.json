@@ -17,6 +17,9 @@
   "repository": "<%= repo %>",
   "scripts": {
     "build": "babel-node rollup.config.js --presets es2015,stage-2 --plugins transform-runtime",
+    "generate-lib":"tsc-glob --declaration --outDir ./lib -m es6 -t es6 --files-glob ./lib-ts/*.ts --moduleResolution node",
+    "postinstall":"typings install",
+    "bundle": "babel ./product/index.es2016.js --out-file ./product/index.js",
     "prepublish": "babel-node ./build/prepublish.js --presets es2015,stage-2 --plugins transform-runtime",
     "start":"npm run build & npm run serve",
     "serve":"hs ./"

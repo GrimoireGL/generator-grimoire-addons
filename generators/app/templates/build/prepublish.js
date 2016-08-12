@@ -50,7 +50,7 @@ const main = async() => {
   index = index.replace(/^\s*\/\/\<\%\=REGISTER\%\>\s*$/m, register);
   await unlinkAsync('./lib-ts/index.ts');
   await writeFileAsync('./lib-ts/index.ts', index);
-  await execAsync("tsc-glob --declaration --outDir ./lib -m es6 -t es6 --files-glob ./lib-ts/*.ts");
+  await execAsync("npm run generate-lib");
 };
 
 main();
