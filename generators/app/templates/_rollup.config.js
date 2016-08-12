@@ -15,10 +15,10 @@ import {
   rollup
 } from 'rollup';
 import typescript from 'rollup-plugin-typescript';
-import babel from 'rollup-plugin-babel';
 import replace from 'rollup-plugin-replace';
 import npm from 'rollup-plugin-node-resolve';
 import chalk from 'chalk';
+import exec from 'exec';
 
 const buildTask = (imports, register) => {
   return rollup({
@@ -36,9 +36,6 @@ const buildTask = (imports, register) => {
       typescript(),
       npm({
         browser: true
-      }),
-      babel({
-        presets: ["es2015-rollup"]
       })
     ]
   });
@@ -87,8 +84,9 @@ const main = async() => {
   console.log(chalk.white.bgBlue("COMPILATION SUCCESS"));
   bundle.write({
     format: 'cjs',
-    dest: './product/index.js'
+    dest: './product/index.es2016.js'
   });
+  exec("babel ./product/index.es2016.js --out-file ./product/index.js");
 }
 
 main();

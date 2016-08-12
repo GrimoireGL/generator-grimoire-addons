@@ -13,7 +13,9 @@
   "repository": "<%= repo %>",
   "scripts": {
     "build": "babel-node rollup.config.js --presets es2015,stage-2 --plugins transform-runtime",
-    "prepublish": "babel-node ./build/postinstall.js --presets es2015,stage-2 --plugins transform-runtime"
+    "prepublish": "babel-node ./build/postinstall.js --presets es2015,stage-2 --plugins transform-runtime",
+    "start":"npm run build & npm run serve",
+    "serve":"hs ./"
   },
   "grimoire":{
     "namespace":"HTTP://GRIMOIRE.GL/NS/CUSTOM",

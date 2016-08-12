@@ -61,10 +61,12 @@ module.exports = yeoman.Base.extend({
     mkdirp.sync(this.destinationPath("./test"));
     // copy directories would be used as build scripts
     this.directory('build', 'build');
+    this.directory('sample','sample');
 
     this.fs.copy(this.templatePath('_rollup.config.js'), this.destinationPath('rollup.config.js'));
     this.fs.copy(this.templatePath('./src/index.ts'), this.destinationPath('./src/index.ts'));
     this.fs.copy(this.templatePath('_tsconfig.json'), this.destinationPath('tsconfig.json'));
+    this.fs.copy(this.templatePath('.babelrc'),this.destinationPath('.babelrc'));
     this.fs.copy(this.templatePath('_.gitignore'), this.destinationPath('.gitignore'));
     this.fs.copy(this.templatePath('_.npmignore'), this.destinationPath('.npmignore'));
     this.fs.copyTpl(this.templatePath('_package.json'), this.destinationPath('package.json'), {
@@ -83,7 +85,7 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function() {
-    this.npmInstall(['babel-cli', 'babel-core@6.13.0', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace','rollup-plugin-node-resolve', 'babel-preset-es2015@6.13.0', 'babel-preset-es2015-rollup', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars','chalk','wrench'], {
+    this.npmInstall(['babel-cli', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'rollup-plugin-node-resolve', 'babel-preset-es2015','babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars', 'chalk', 'wrench', 'http-server','grimoirejs','exec'], {
       'saveDev': true
     });
     this.installDependencies();
