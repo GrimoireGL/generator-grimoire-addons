@@ -1,6 +1,6 @@
 import fs from 'fs';
 import handleBars from 'handlebars';
-import wrench from 'wrench';
+import fse from 'fs-extra';
 import {
     exec
 } from 'child_process';
@@ -25,11 +25,14 @@ export async function templateAsync(filePath, args) {
     return handleBars.compile(template)(args);
 }
 
-export function copyDirAsync(src, dest, forceDelete = false) {
+export function copyDirAsync(src, dest, clobber = false) {
     return new Promise((resolve, reject) => {
-        wrench.copyDirRecursive(src, dest, {
-            forceDelete: forceDelete
-        }, () => {
+        fse.copy(src, dest, {
+            clobber: clobber
+        }, (err) => {
+            if (err) {
+                reject(err);
+            }
             resolve();
         });
     });
@@ -72,8 +75,7 @@ export function execAsync(command) {
 }
 
 export function* watchItr(src, options) {
-    let resolver = {
-    };
+    let resolver = {};
     watch.watchTree(src, options, (f, curr, prev) => {
         resolver.resolve(f);
     });
@@ -83,4 +85,15 @@ export function* watchItr(src, options) {
         });
         yield p;
     }
+}
+
+export function emptyDir(src) {
+    return new Promise((resolve, reject) => {
+        fse.emptyDir(src, (err) => {
+            if (err) {
+                reject(err);
+            }
+            resolve();
+        });
+    });
 }

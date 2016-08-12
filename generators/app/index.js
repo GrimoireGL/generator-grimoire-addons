@@ -54,7 +54,6 @@ module.exports = yeoman.Base.extend({
     // generating folders
     mkdirp.sync(this.destinationPath("./src"));
     mkdirp.sync(this.destinationPath("./test"));
-    mkdirp.sync(this.destinationPath("./sample"));
     // copy directories would be used as build scripts
     this.directory('build', 'build');
     this.directory('samples', 'samples');
@@ -68,21 +67,21 @@ module.exports = yeoman.Base.extend({
       desc: this.props.desc,
       repo: this.props.repo
     });
-    this.fs.copyTpl(this.templatePath('typings.json'), this.destinationPath('typings.json'),{
+    this.fs.copyTpl(this.templatePath('typings.json'), this.destinationPath('typings.json'), {
       name: this.props.name
     });
     if (this.props.generateSample) {
       if (this.props.includeConverter) {
-        mkdirp.sync(this.destinationPath("./src/Converter"));
-        this.fs.copy(this.templatePath('./src/Converter/SampleConverter.ts'), this.destinationPath('./src/Converter/SampleConverter.ts'));
+        mkdirp.sync(this.destinationPath("./src/Converters"));
+        this.fs.copy(this.templatePath('./src/Converters/SampleConverter.ts'), this.destinationPath('./src/Converters/SampleConverter.ts'));
       }
-      mkdirp.sync(this.destinationPath("./src/Component"));
-      this.fs.copy(this.templatePath('./src/Component/SampleComponent.ts'), this.destinationPath('./src/Component/SampleComponent.ts'));
+      mkdirp.sync(this.destinationPath("./src/Components"));
+      this.fs.copy(this.templatePath('./src/Components/SampleComponent.ts'), this.destinationPath('./src/Components/SampleComponent.ts'));
     }
   },
 
   install: function() {
-    this.npmInstall(['babel-cli', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'rollup-plugin-node-resolve', 'babel-preset-es2015', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars', 'chalk', 'wrench', 'http-server', 'grimoirejs', 'tsc-glob', 'rollup-plugin-node-builtins', 'rollup-plugin-commonjs', 'rollup-plugin-node-globals', 'typings','yargs','watch'], {
+    this.npmInstall(['babel-cli', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'rollup-plugin-node-resolve', 'babel-preset-es2015', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars', 'chalk', 'http-server', 'grimoirejs', 'rollup-plugin-node-builtins', 'rollup-plugin-commonjs', 'rollup-plugin-node-globals', 'typings', 'yargs', 'watch', 'fs-extra'], {
       'saveDev': true
     });
     this.npmInstall(['events', 'utils', 'buffer'], {
