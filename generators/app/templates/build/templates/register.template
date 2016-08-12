@@ -1,8 +1,8 @@
 const _$ns = GrimoireInterface.ns("{{namespace}}");
 {{#each components}}
-  GrimoireInterface.registerComponent(_$ns("{{key}}"),{{key}});
+  GrimoireInterface.registerComponent(_$ns("{{tag}}"),{{key}});
 {{/each}}
 
 {{#each converters}}
-  GrimoireInterface.registerConverter(_$ns("{{key}}"),{{key}});
+  GrimoireInterface.registerConverter(_$ns("{{tag}}"),{{key}});
 {{/each}}

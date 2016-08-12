@@ -21,16 +21,28 @@ export default async function(config) {
     // glob component files
     const componentFiles = await glob('./src/**/*Component.ts');
     const components = componentFiles.map(v => {
+      const nameBody = getFileNameBody(v);
+      const tag = nameBody.replace(/^(.+)Component$/,"$1");
+      if(!tag){
+        console.error("The name just 'Component' is prohibited for readability");
+      }
         return {
-            key: getFileNameBody(v),
+            tag:tag,
+            key: nameBody,
             path: getRelativePath(v)
         };
     });
     // glob converter files
     const converterFiles = await glob('./src/**/*Converter.ts');
     const converters = converterFiles.map(v => {
+      const nameBody = getFileNameBody(v);
+      const tag = nameBody.replace(/^(.+)Converter$/,"$1");
+      if(!tag){
+        console.error("The name just 'Converter' is prohibited for readability");
+      }
         return {
-            key: getFileNameBody(v),
+            tag:tag,
+            key: nameBody,
             path: getRelativePath(v)
         };
     });
