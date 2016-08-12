@@ -16,7 +16,7 @@ const main = async() => {
   const config = JSON.parse(await readFileAsync("./package.json"));
   config.grimoire = config.grimoire ? config.grimoire : {};
   await generate(config);
-  await execAsync("npm run generate-lib");
+  await execAsync("npm run compile");
 };
 
 main();

@@ -54,10 +54,10 @@ module.exports = yeoman.Base.extend({
     // generating folders
     mkdirp.sync(this.destinationPath("./src"));
     mkdirp.sync(this.destinationPath("./test"));
+    mkdirp.sync(this.destinationPath("./sample"));
     // copy directories would be used as build scripts
     this.directory('build', 'build');
-    this.directory('sample', 'sample');
-
+    this.directory('samples', 'samples');
     this.fs.copy(this.templatePath('_rollup.config.js'), this.destinationPath('rollup.config.js'));
     this.fs.copy(this.templatePath('./src/index.ts'), this.destinationPath('./src/index.ts'));
     this.fs.copy(this.templatePath('_tsconfig.json'), this.destinationPath('tsconfig.json'));

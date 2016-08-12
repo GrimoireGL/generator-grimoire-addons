@@ -1,4 +1,5 @@
 /// <reference path="../src/typings/index.d.ts"/>
+import "babel-polyfill";
 //
 // DO NOT REMOVE THE LINE BELOW.
 //

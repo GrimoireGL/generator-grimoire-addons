@@ -105,3 +105,5 @@ $RECYCLE.BIN/
 .Trash-*
 
 ./lib
+./lib-ts
+./product
