@@ -11,7 +11,7 @@ module.exports = yeoman.Base.extend({
       type: 'input',
       name: 'name',
       message: 'What you name this addon?',
-      default: path.basename(__dirname)
+      default: path.basename(this.destinationRoot())
     }, {
       type: 'input',
       name: 'namespace',
