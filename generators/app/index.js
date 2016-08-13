@@ -3,14 +3,15 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var mkdirp = require("mkdirp");
-
+var path = require('path');
 module.exports = yeoman.Base.extend({
   prompting: function() {
+
     var prompts = [{
       type: 'input',
       name: 'name',
       message: 'What you name this addon?',
-      default: 'sample'
+      default: path.basename(__dirname)
     }, {
       type: 'input',
       name: 'namespace',
@@ -81,7 +82,7 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function() {
-    this.npmInstall(['babel-cli', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'rollup-plugin-node-resolve', 'babel-preset-es2015', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars', 'chalk', 'http-server', 'grimoirejs', 'rollup-plugin-node-builtins', 'rollup-plugin-commonjs', 'rollup-plugin-node-globals', 'typings', 'yargs', 'watch', 'fs-extra'], {
+    this.npmInstall(['babel-cli', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'rollup-plugin-node-resolve', 'babel-preset-es2015', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars', 'chalk', 'http-server', 'grimoirejs', 'rollup-plugin-node-builtins', 'rollup-plugin-commonjs', 'rollup-plugin-node-globals', 'typings', 'yargs', 'watch', 'fs-extra','typescript@beta'], {
       'saveDev': true
     });
     this.npmInstall(['events', 'utils', 'buffer'], {
