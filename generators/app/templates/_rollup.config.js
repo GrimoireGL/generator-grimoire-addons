@@ -58,7 +58,7 @@ const parseConfig = async() => {
 };
 
 const bar = new ProgressBar(':bar\nMoving files...\n', {
-    total: argv.m ? 24:20
+    total: argv.m ? 24 : 20
 });
 
 const tickBar = (message) => {
@@ -115,4 +115,14 @@ const task = async() => {
     }
 }
 
+const server = async()=>{
+  const serverLog = await execAsync("npm run serve");
+  if(serverLog.err){
+    console.error(chalk.red(serverLog.stderr));
+  }
+}
+
 task();
+if(argv.s){
+  server();
+}
