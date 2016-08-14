@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "description": "<%= desc %>",
   "main": "./lib/index.js",
-  "typings":"./lib/index.d.ts",
-  "files":[
+  "typings": "./lib/index.d.ts",
+  "files": [
     "./lib",
     "./samples"
   ],
@@ -12,10 +12,10 @@
     "grimoire.js"
   ],
   "dependencies": {},
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "repository": "<%= repo %>",
   "scripts": {
+    "scafold": "babel-node ./build/scafold.js --presets es2015,stage-2 --plugins transform-runtime",
     "compile": "tsc @./lib-ts/entry_files --declaration --outDir ./lib -m es6 -t es6 --moduleResolution node ",
     "build": "babel-node rollup.config.js --presets es2015,stage-2 --plugins transform-runtime",
     "postinstall": "typings install",
@@ -24,9 +24,9 @@
     "start": "npm run build & npm run serve",
     "serve": "hs ./"
   },
-  "grimoire":{
-    "namespace":"HTTP://GRIMOIRE.GL/NS/CUSTOM",
-    "dependencies":[]
+  "grimoire": {
+    "namespace": "HTTP://GRIMOIRE.GL/NS/CUSTOM",
+    "dependencies": []
   },
   "license": "MIT"
 }
