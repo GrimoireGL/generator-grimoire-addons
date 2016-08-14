@@ -17,7 +17,7 @@ Then generate your new project:
 yo grimoire-addons
 ```
 
-**See this page(http://grimoire.gl/api/core-messages.html) for more detail.(Japanese)**
+**See this page(http://grimoire.gl/guide/addons-generator.html) for more detail.(Japanese)**
 
 
 ## License
