@@ -82,7 +82,7 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function() {
-    this.npmInstall(['rollup-plugin-sourcemaps', 'uglify', 'progress', 'babel-cli', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'rollup-plugin-node-resolve', 'babel-preset-es2015', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars', 'chalk', 'http-server', 'grimoirejs', 'rollup-plugin-node-builtins', 'rollup-plugin-commonjs', 'rollup-plugin-node-globals', 'typings', 'yargs', 'watch', 'fs-extra', 'typescript@beta'], {
+    this.npmInstall(['ava','rollup-plugin-sourcemaps', 'uglify', 'progress', 'babel-cli', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'rollup-plugin-node-resolve', 'babel-preset-es2015', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars', 'chalk', 'http-server', 'grimoirejs', 'rollup-plugin-node-builtins', 'rollup-plugin-commonjs', 'rollup-plugin-node-globals', 'typings', 'yargs', 'watch', 'fs-extra', 'typescript@beta'], {
       'saveDev': true
     });
     this.npmInstall(['events', 'utils', 'buffer'], {
