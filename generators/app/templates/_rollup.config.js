@@ -20,6 +20,7 @@ import npm from 'rollup-plugin-node-resolve';
 import builtin from 'rollup-plugin-node-builtins';
 import commonjs from 'rollup-plugin-commonjs';
 import globals from 'rollup-plugin-node-globals';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 import chalk from 'chalk';
 import generate from './build/generate-index';
 import {
@@ -31,7 +32,9 @@ const buildTask = () => {
     return new Promise((resolve, reject) => {
         rollup({
             entry: './lib/index.js',
+            sourceMap: true,
             plugins: [
+                sourcemaps(),
                 builtin(),
                 commonjs({
                     ignoreGlobal: true,
@@ -90,6 +93,7 @@ const main = async() => {
     }
     bundle.write({
         format: 'cjs',
+        sourceMap: true,
         dest: './product/index.es2016.js'
     });
     tickBar("Transpiling into es2015 javascript files...");
@@ -115,14 +119,14 @@ const task = async() => {
     }
 }
 
-const server = async()=>{
-  const serverLog = await execAsync("npm run serve");
-  if(serverLog.err){
-    console.error(chalk.red(serverLog.stderr));
-  }
+const server = async() => {
+    const serverLog = await execAsync("npm run serve");
+    if (serverLog.err) {
+        console.error(chalk.red(serverLog.stderr));
+    }
 }
 
 task();
-if(argv.s){
-  server();
+if (argv.s) {
+    server();
 }
