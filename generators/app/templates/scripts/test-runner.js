@@ -5,7 +5,7 @@ import {
     execAsync,
     readFileAsync,
     watchItr
-} from 'grimoirejs-build-env-base';
+} from './fsAsync';
 import generator from './generate-index';
 import Progress from 'progress';
 import chalk from 'chalk';
@@ -78,3 +78,4 @@ const task = async() => {
 };
 
 task();
+bo
