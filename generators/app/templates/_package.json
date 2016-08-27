@@ -17,7 +17,7 @@
   "scripts": {
     "scaffold": "babel-node ./scripts/scaffold.js --presets es2015,stage-2 --plugins transform-runtime",
     "minify": "uglify -s ./product/index.js -o ./product/index.min.js",
-    "compile": "tsc @./lib-ts/entry_files --declaration --outDir ./lib -m es6 -t es6 --moduleResolution node --sourcemap",
+    "compile": "tsc @./lib-ts/entry_files --declaration --outDir ./lib -m es6 -t es6 --moduleResolution node --sourcemap --noEmitHelpers",
     "build": "babel-node rollup.config.js --presets es2015,stage-2 --plugins transform-runtime",
     "babel": "babel ./product/index.es2016.js --out-file ./product/index.js --inputSourceMap ./product/index.es2016.js.map --sourceMaps true -sourceMapTarget ./index.js.map",
     "prepublish": "babel-node ./scripts/prepublish.js --presets es2015,stage-2 --plugins transform-runtime",

@@ -19,6 +19,7 @@ import builtin from 'rollup-plugin-node-builtins';
 import commonjs from 'rollup-plugin-commonjs';
 import globals from 'rollup-plugin-node-globals';
 import sourcemaps from 'rollup-plugin-sourcemaps';
+import inject from 'rollup-plugin-inject';
 import chalk from 'chalk';
 import generate from './scripts/generate-index';
 import {
@@ -33,6 +34,11 @@ const buildTask = () => {
             sourceMap: true,
             plugins: [
                 sourcemaps(),
+                inject({
+                  modules:{
+                    __awaiter:'typescript-awaiter'
+                  }
+                }),
                 builtin(),
                 commonjs({
                     ignoreGlobal: true,
