@@ -5,13 +5,13 @@ import {
     execAsync,
     readFileAsync,
     watchItr
-} from './fsAsync';
+} from 'grimoirejs-build-env-base';
 import generator from './generate-index';
 import Progress from 'progress';
 import chalk from 'chalk';
 
 const test = async() => {
-    const result = await execAsync(`npm run ava --　-S ./test/${argv.f?argv.f:""}`);
+    const result = await execAsync(`npm run ava --　-S ./test/${argv.f?argv.f:"**/*Test.js"}`);
     console.log(result.stdout);
     console.log(result.stderr);
     if (result.err) {
@@ -78,4 +78,3 @@ const task = async() => {
 };
 
 task();
-bo

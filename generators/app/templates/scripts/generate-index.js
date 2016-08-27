@@ -12,6 +12,7 @@ import {
     getFileNameBody,
     getRelativePath
 } from './pathUtil';
+import txt2js from './txt2js';
 
 
 export default async function(config) {
@@ -62,5 +63,6 @@ export default async function(config) {
     await emptyDir('./lib-ts/typings');
     const files = await glob('./lib-ts/**/*.ts');
     await writeFileAsync('./lib-ts/entry_files', files.join('\n'));
+    await txt2js("./src/**/*.html");
 
 }

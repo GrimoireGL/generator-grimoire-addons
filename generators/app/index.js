@@ -56,7 +56,7 @@ module.exports = yeoman.Base.extend({
     mkdirp.sync(this.destinationPath("./src"));
     mkdirp.sync(this.destinationPath("./test"));
     // copy directories would be used as build scripts
-    this.directory('build', 'build');
+    this.directory('scripts', 'scripts');
     this.directory('samples', 'samples');
     this.fs.copy(this.templatePath('_rollup.config.js'), this.destinationPath('rollup.config.js'));
     this.fs.copy(this.templatePath('./src/index.ts'), this.destinationPath('./src/index.ts'));
@@ -67,9 +67,6 @@ module.exports = yeoman.Base.extend({
       name: this.props.name,
       desc: this.props.desc,
       repo: this.props.repo
-    });
-    this.fs.copyTpl(this.templatePath('typings.json'), this.destinationPath('typings.json'), {
-      name: this.props.name
     });
     if (this.props.generateSample) {
       if (this.props.includeConverter) {
@@ -82,7 +79,7 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function() {
-    this.npmInstall(['grimoirejs-build-env-base','ava','rollup-plugin-sourcemaps', 'uglify', 'progress', 'babel-cli', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'rollup-plugin-node-resolve', 'babel-preset-es2015', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars', 'chalk', 'http-server', 'grimoirejs', 'rollup-plugin-node-builtins', 'rollup-plugin-commonjs', 'rollup-plugin-node-globals', 'typings', 'yargs', 'watch', 'fs-extra', 'typescript@beta'], {
+    this.npmInstall(['grimoirejs-build-env-base', 'ava', 'rollup-plugin-sourcemaps', 'uglify', 'progress', 'babel-cli', 'rollup', 'rollup-plugin-typescript', 'rollup-plugin-babel', 'rollup-plugin-replace', 'rollup-plugin-node-resolve', 'babel-preset-es2015', 'babel-preset-stage-2', 'babel-plugin-transform-runtime', 'babel-runtime', 'handlebars', 'chalk', 'http-server', 'grimoirejs', 'rollup-plugin-node-builtins', 'rollup-plugin-commonjs', 'rollup-plugin-node-globals', 'yargs', 'watch', 'fs-extra', 'typescript@beta'], {
       'saveDev': true
     });
     this.npmInstall(['events', 'utils', 'buffer'], {
