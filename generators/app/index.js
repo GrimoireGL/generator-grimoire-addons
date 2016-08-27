@@ -61,7 +61,6 @@ module.exports = yeoman.Base.extend({
     this.fs.copy(this.templatePath('_rollup.config.js'), this.destinationPath('rollup.config.js'));
     this.fs.copy(this.templatePath('./src/index.ts'), this.destinationPath('./src/index.ts'));
     this.fs.copy(this.templatePath('_tsconfig.json'), this.destinationPath('tsconfig.json'));
-    this.fs.copy(this.templatePath('.babelrc'), this.destinationPath('.babelrc'));
     this.fs.copy(this.templatePath('_.gitignore'), this.destinationPath('.gitignore'));
     this.fs.copyTpl(this.templatePath('_package.json'), this.destinationPath('package.json'), {
       name: this.props.name,
