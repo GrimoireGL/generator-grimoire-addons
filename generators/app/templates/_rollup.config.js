@@ -27,7 +27,7 @@ import {
 } from 'yargs';
 import ProgressBar from 'progress';
 
-const buildTask = () => {
+const bundlingTask = () => {
     return new Promise((resolve, reject) => {
         rollup({
             entry: './lib/index.js',
@@ -35,9 +35,9 @@ const buildTask = () => {
             plugins: [
                 sourcemaps(),
                 inject({
-                  modules:{
-                    __awaiter:'typescript-awaiter'
-                  }
+                    modules: {
+                        __awaiter: 'typescript-awaiter'
+                    }
                 }),
                 builtin(),
                 commonjs({
@@ -48,7 +48,7 @@ const buildTask = () => {
                     jsnext: true,
                     main: true,
                     browser: true
-                }), globals()
+                })
             ]
         }).then(bundle => {
             resolve(bundle);
@@ -63,32 +63,44 @@ const parseConfig = async() => {
     config.grimoire = config.grimoire ? config.grimoire : {};
     return config;
 };
+const barLength = 50;
 
-const bar = new ProgressBar(':bar\nMoving files...\n', {
-    total: argv.m ? 24 : 20
-});
+let taskCount = 4;
+if (argv.b) {
+    taskCount++;
+}
+if (argv.m) {
+    taskCount++;
+}
 
-const tickBar = (message) => {
+const tickBar = (bar, message) => {
     bar.fmt = `:percent[:bar](${message})\n`;
-    bar.tick(4);
+    bar.tick(barLength / taskCount);
 };
+
+if(!argv.b && argv.m){
+  console.warn("You cannnot minify es2016 script. minify task will be skipped");
+  taskCount --;
+}
 
 
 const main = async() => {
+    const bar = new ProgressBar(':bar\nParsing config file...\n', {
+        total: barLength
+    });
     const config = await parseConfig();
-    tickBar("Generating code from template...");
+    tickBar(bar, "Generating code from template...");
     await generate(config);
-    tickBar("Compiling typescript files...");
+    tickBar(bar, "Compiling typescript files...");
     const tsResult = await execAsync("npm run compile");
     if (tsResult.err) {
         console.log(chalk.red(tsResult.stdout));
         return;
     }
-    tickBar("Bundling es2016 javascript files...");
+    tickBar(bar, "Bundling es2016 javascript files...");
     let bundle = null;
     try {
-        bundle = await buildTask();
-        bar.tick();
+        bundle = await bundlingTask();
     } catch (e) {
         console.error(chalk.white.bgRed("BUNDLING FAILED"));
         console.error(chalk.red(e));
@@ -100,13 +112,15 @@ const main = async() => {
         sourceMap: true,
         dest: './product/index.es2016.js'
     });
-    tickBar("Transpiling into es2015 javascript files...");
-    await execAsync("npm run babel");
-    if (argv.m) {
-        tickBar("Uglifying generated javascript");
+    if (argv.b) {
+        tickBar(bar, "Transpiling into es2015 javascript files...");
+        await execAsync("npm run babel");
+    }
+    if (argv.m && argv.b) {
+        tickBar(bar, "Uglifying generated javascript");
         await execAsync("npm run minify");
     }
-    tickBar("DONE!");
+    tickBar(bar, "DONE!");
 }
 
 const task = async() => {
