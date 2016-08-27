@@ -64,7 +64,6 @@ export default async function(config) {
     index = index.replace(/^\s*\/\/\<\%\=REGISTER\%\>\s*$/m, register);
     await unlinkAsync('./lib-ts/index.ts');
     await writeFileAsync('./lib-ts/index.ts', index);
-    await emptyDir('./lib-ts/typings');
     const files = await glob('./lib-ts/**/*.ts');
     await writeFileAsync('./lib-ts/entry_files', files.join('\n'));
     await txt2js("./src/**/*.html");
