@@ -7,5 +7,5 @@ export function getFileNameBody(filePath) {
 export function getRelativePath(filePath) {
     const abs = path.resolve(filePath);
     const regex = /(.+)\.[^\.]+$/m;
-    return "./" + path.relative(path.resolve('./src/'), abs).replace(regex,"$1");
+    return "./" + path.relative(path.resolve('./src/'), abs).replace(regex,"$1").replace(/\\/,'/');
 }
