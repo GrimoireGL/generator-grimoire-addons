@@ -64,20 +64,6 @@ jspm_packages
 .node_repl_history
 
 
-### https://raw.github.com/github/gitignore/a392c48ccf4136ef75acb05b7ead4e9c75235c19/Global/Linux.gitignore
-
-*~
-
-# temporary files which can be created if a process still has a handle open of a deleted file
-.fuse_hidden*
-
-# KDE directory preferences
-.directory
-
-# Linux trash folder which might appear on any partition or disk
-.Trash-*
-
-
 ### https://raw.github.com/github/gitignore/a392c48ccf4136ef75acb05b7ead4e9c75235c19/Global/Windows.gitignore
 
 # Windows image file caches
@@ -98,3 +84,33 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+
+### https://raw.github.com/github/gitignore/a392c48ccf4136ef75acb05b7ead4e9c75235c19/Global/Linux.gitignore
+
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+### Grimoire.js ###
+
+# Generated codes included in package publishing.
+lib
+lib-es5
+
+# Generated codes just used in local environment
+lib-ts
+lib-test
+product
+
+# If you are using atom-typescript without any configuration, that plugin would generate js files in ts folder.
+# To prevent conflict by this files, any js files included src folder would be ignored.
+# Only if you want to import js file from typescript(NOT RECOMMENDED, the ideal method is what separate them as packages and use them as dependency),you should remove the line below.
+src/**/*.js

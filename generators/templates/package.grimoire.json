@@ -1,0 +1,32 @@
+{
+  "grimoire": {
+    "ts": {
+      "lib": "./lib-es6",
+      "temp": "./lib-ts",
+      "src": "./src",
+      "es5": "./lib-es5"
+    },
+    "main": "test.ts",
+    "test": {
+      "defaultGlob": "**/*Test.js",
+      "src": "./test",
+      "lib": "./lib-test"
+    },
+    "out": {
+      "es6": "./product/grimoire.es2016.js",
+      "es5": "./product/grimoire.js"
+    },
+    "txt-exts": [
+      ".txt",
+      ".html",
+      ".goml",
+      ".sort"
+    ],
+    "doc": {
+      "src": "./doc",
+      "header": "./doc/header.md",
+      "footer": "./doc/footer.md",
+      "dest": "./lib-md/index.md"
+    }
+  }
+}

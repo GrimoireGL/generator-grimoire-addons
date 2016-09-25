@@ -1,6 +1,6 @@
 # generator-grimoire-addons
 
-> The generator to generate Grimoire.js addons
+> The generator for Grimoire.js addons
 
 ## Installation
 

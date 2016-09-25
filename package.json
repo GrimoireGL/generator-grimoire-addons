@@ -1,6 +1,6 @@
 {
   "name": "generator-grimoire-addons",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "The generator to generate Grimoire.js addons",
   "homepage": "http://grimoire.gl",
   "author": {
@@ -13,19 +13,14 @@
   ],
   "main": "generators/index.js",
   "keywords": [
-    "grimoire.js",
+    "grimoire",
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.23.0",
-    "chalk": "^1.0.0",
-    "yosay": "^1.0.0"
-  },
-  "devDependencies": {
-    "yeoman-test": "^1.0.0",
-    "yeoman-assert": "^2.0.0",
-    "eslint": "^3.1.1",
-    "eslint-config-xo-space": "^0.14.0"
+    "chalk": "^1.1.3",
+    "fs-extra": "^0.30.0",
+    "lodash": "^4.16.1",
+    "yeoman-generator": "^0.23.0"
   },
   "eslintConfig": {
     "extends": "xo-space",
@@ -35,7 +30,13 @@
   },
   "repository": "GrimoireGL/generator-grimoire-addons",
   "scripts": {
-    "test": "gulp"
+    "prepublish": "rm -rf -r ./generators && mkdir ./generators && cp -R ./src/templates ./generators/templates && babel ./src --out-dir ./generators --presets es2015,stage-2 --plugins transform-runtime"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-2": "^6.13.0"
+  }
 }
