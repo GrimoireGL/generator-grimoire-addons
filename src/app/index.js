@@ -17,7 +17,7 @@ const prompt = async(gen) => {
   let params = {};
   console.log(chalk.bgWhite.black("Entry point configuration and Test command configuration would be rewritten by generator"));
   // generate .npmrc for default values during running 'npm init'
-  const npmrc = await readFileAsync(gen.templatePath("../../templates/.npmrc"));
+  const npmrc = await readFileAsync(gen.templatePath("../../templates/_npmrc"));
   await writeFileAsync(gen.destinationPath(".npmrc"), npmrc);
   if (!(await existsAsync(gen.destinationPath("package.json")))) {
     while (true) {
@@ -80,7 +80,7 @@ module.exports = yeoman.Base.extend({
     const t = this.templatePath.bind(this);
     const d = this.destinationPath.bind(this);
     // Copy files directly
-    this.fs.copy(t(".gitignore"), d(".gitignore"));
+    this.fs.copy(t("_gitignore"), d(".gitignore"));
     this.fs.copy(t("tsconfig.json"), d("tsconfig.json"));
     // Make directories
     await ensureDirAsync(d("src"));

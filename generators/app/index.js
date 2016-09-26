@@ -46,7 +46,7 @@ var prompt = function () {
             console.log(_chalk2.default.bgWhite.black("Entry point configuration and Test command configuration would be rewritten by generator"));
             // generate .npmrc for default values during running 'npm init'
             _context.next = 4;
-            return (0, _asyncHelper.readFileAsync)(gen.templatePath("../../templates/.npmrc"));
+            return (0, _asyncHelper.readFileAsync)(gen.templatePath("../../templates/_npmrc"));
 
           case 4:
             npmrc = _context.sent;
@@ -205,7 +205,7 @@ module.exports = _yeomanGenerator2.default.Base.extend({
               d = this.destinationPath.bind(this);
               // Copy files directly
 
-              this.fs.copy(t(".gitignore"), d(".gitignore"));
+              this.fs.copy(t("_gitignore"), d(".gitignore"));
               this.fs.copy(t("tsconfig.json"), d("tsconfig.json"));
               // Make directories
               _context2.next = 6;
