@@ -1,12 +1,16 @@
 {
+  "main": "./lib/index.js",
+  "typings":"./lib/index.d.ts",
+  "files":["src","lib","lib-es5"],
   "grimoire": {
+    "isPlugin": true,
     "ts": {
-      "lib": "./lib-es6",
+      "lib": "./lib",
       "temp": "./lib-ts",
       "src": "./src",
       "es5": "./lib-es5"
     },
-    "main": "test.ts",
+    "main": "index.ts",
     "test": {
       "defaultGlob": "**/*Test.js",
       "src": "./test",
@@ -29,9 +33,9 @@
       "dest": "./lib-md/index.md"
     }
   },
-  "scripts":{
-    "start":"cauldron build --watch --server",
-    "build":"cauldron build",
-    "test":"inquisitor"
+  "scripts": {
+    "start": "cauldron build --watch --server",
+    "build": "cauldron build",
+    "test": "inquisitor"
   }
 }

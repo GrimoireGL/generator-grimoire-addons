@@ -63,8 +63,6 @@ const prompt = async(gen) => {
   }
   const gConfig = JSON.parse(await readFileAsync(gen.templatePath("../../templates/package.grimoire.json")));
   const newPackageConfig = _.merge(pConfig, gConfig);
-  pConfig.scripts.postinstall = "cauldron wire -n " + pConfig.name;
-  pConfig.scripts.preuninstall = "cauldron unwire -n " + pConfig.name;
   await writeFileAsync(gen.destinationPath("package.json"), JSON.stringify(newPackageConfig));
   gen.props = params;
 }
