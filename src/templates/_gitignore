@@ -108,8 +108,8 @@ lib-es5
 # Generated codes just used in local environment
 lib-ts
 lib-test
+lib-md
 product
-.grimoire.dependency
 
 # If you are using atom-typescript without any configuration, that plugin would generate js files in ts folder.
 # To prevent conflict by this files, any js files included src folder would be ignored.

@@ -1,7 +1,7 @@
 {
   "main": "./lib/index.js",
-  "typings":"./lib/index.d.ts",
-  "files":["src","lib","lib-es5"],
+  "typings": "./lib/index.d.ts",
+  "files": ["src", "lib", "lib-es5"],
   "grimoire": {
     "isPlugin": true,
     "ts": {
@@ -14,7 +14,7 @@
     "test": {
       "defaultGlob": "**/*Test.js",
       "src": "./test",
-      "lib": "./lib-test"
+      "temp": "./lib-test"
     },
     "out": {
       "es6": "./product/grimoire.es2016.js",
@@ -30,12 +30,14 @@
       "src": "./doc",
       "header": "./doc/header.md",
       "footer": "./doc/footer.md",
-      "dest": "./lib-md/index.md"
+      "dest": "./README.md"
     }
   },
   "scripts": {
     "start": "cauldron build --watch --server",
     "build": "cauldron build",
-    "test": "inquisitor"
+    "test": "inquisitor",
+    "prepublish": "cauldron build && inquisitor && npm run doc",
+    "doc": "cauldron doc"
   }
 }

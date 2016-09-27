@@ -7,7 +7,8 @@ import {
   writeFileAsync,
   readFileAsync,
   unlinkAsync,
-  ensureDirAsync
+  ensureDirAsync,
+  execAsync
 } from "./async-helper";
 import chalk from "chalk";
 
@@ -79,6 +80,8 @@ module.exports = yeoman.Base.extend({
     // Making aliases
     const t = this.templatePath.bind(this);
     const d = this.destinationPath.bind(this);
+
+    const pConfig = JSON.parse(await readFileAsync(d("package.json")));
     // Copy files directly
     this.fs.copy(t("_gitignore"), d(".gitignore"));
     this.fs.copy(t("tsconfig.json"), d("tsconfig.json"));
@@ -89,8 +92,28 @@ module.exports = yeoman.Base.extend({
 
     // Copy contents
     this.fs.copy(t("src/index.ts"), d("src/index.ts"));
+    this.fs.copy(t("test/SampleTest.js"), d("test/SampleTest.js"));
+
+    this.fs.copyTpl(t("doc/header.md"),d("doc/header.md"),{
+      name:pConfig.name.replace(/grimoirejs-(.*)/,"$1"),
+      pName:pConfig.name,
+      description:pConfig.description,
+    });
+    this.fs.copyTpl(t("doc/footer.md"),d("doc/footer.md"),{
+      license:pConfig.license
+    });
+    if(pConfig.license === "MIT"){
+      let name = "";
+      if(pConfig.author && pConfig.author.name){
+        name = pConfig.author.name;
+      }
+      this.fs.copyTpl(t("MIT"),d("LICENSE"),{
+        author:name,
+        year: (new Date()).getFullYear()
+      });
+    }
   },
-  install: function() {
+  install:async function() {
     this.npmInstall(["grimoirejs-cauldron","grimoirejs-inquisitor"], {
       saveDev: true
     });

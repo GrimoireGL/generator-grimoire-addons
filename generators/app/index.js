@@ -195,7 +195,7 @@ module.exports = _yeomanGenerator2.default.Base.extend({
   },
   writing: function () {
     var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-      var t, d;
+      var t, d, pConfig, name;
       return _regenerator2.default.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
@@ -203,28 +203,56 @@ module.exports = _yeomanGenerator2.default.Base.extend({
               // Making aliases
               t = this.templatePath.bind(this);
               d = this.destinationPath.bind(this);
-              // Copy files directly
+              _context2.t0 = JSON;
+              _context2.next = 5;
+              return (0, _asyncHelper.readFileAsync)(d("package.json"));
 
+            case 5:
+              _context2.t1 = _context2.sent;
+              pConfig = _context2.t0.parse.call(_context2.t0, _context2.t1);
+
+              // Copy files directly
               this.fs.copy(t("_gitignore"), d(".gitignore"));
               this.fs.copy(t("tsconfig.json"), d("tsconfig.json"));
               // Make directories
-              _context2.next = 6;
+              _context2.next = 11;
               return (0, _asyncHelper.ensureDirAsync)(d("src"));
 
-            case 6:
-              _context2.next = 8;
+            case 11:
+              _context2.next = 13;
               return (0, _asyncHelper.ensureDirAsync)(d("doc"));
 
-            case 8:
-              _context2.next = 10;
+            case 13:
+              _context2.next = 15;
               return (0, _asyncHelper.ensureDirAsync)(d("test"));
 
-            case 10:
+            case 15:
 
               // Copy contents
               this.fs.copy(t("src/index.ts"), d("src/index.ts"));
+              this.fs.copy(t("test/SampleTest.js"), d("test/SampleTest.js"));
 
-            case 11:
+              this.fs.copyTpl(t("doc/header.md"), d("doc/header.md"), {
+                name: pConfig.name.replace(/grimoirejs-(.*)/, "$1"),
+                pName: pConfig.name,
+                description: pConfig.description
+              });
+              this.fs.copyTpl(t("doc/footer.md"), d("doc/footer.md"), {
+                license: pConfig.license
+              });
+              if (pConfig.license === "MIT") {
+                name = "";
+
+                if (pConfig.author && pConfig.author.name) {
+                  name = pConfig.author.name;
+                }
+                this.fs.copyTpl(t("MIT"), d("LICENSE"), {
+                  author: name,
+                  year: new Date().getFullYear()
+                });
+              }
+
+            case 20:
             case "end":
               return _context2.stop();
           }
@@ -238,11 +266,30 @@ module.exports = _yeomanGenerator2.default.Base.extend({
 
     return writing;
   }(),
-  install: function install() {
-    this.npmInstall(["grimoirejs-cauldron", "grimoirejs-inquisitor"], {
-      saveDev: true
-    });
-    this.npmInstall(["grimoirejs"]);
-    this.installDependencies();
-  }
+  install: function () {
+    var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      return _regenerator2.default.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              this.npmInstall(["grimoirejs-cauldron", "grimoirejs-inquisitor"], {
+                saveDev: true
+              });
+              this.npmInstall(["grimoirejs"]);
+              this.installDependencies();
+
+            case 3:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    }));
+
+    function install() {
+      return _ref3.apply(this, arguments);
+    }
+
+    return install;
+  }()
 });
