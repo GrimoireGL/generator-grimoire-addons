@@ -1,6 +1,6 @@
 {
   "name": "generator-grimoire-addons",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "The generator to generate Grimoire.js addons",
   "homepage": "http://grimoire.gl",
   "author": {
@@ -20,7 +20,7 @@
     "babel-runtime": "^6.11.6",
     "chalk": "^1.1.3",
     "fs-extra": "^0.30.0",
-    "lodash": "^4.16.1",
+    "lodash": "^4.16.2",
     "yeoman-generator": "^0.24.1"
   },
   "eslintConfig": {
