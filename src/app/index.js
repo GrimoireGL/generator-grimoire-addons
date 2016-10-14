@@ -83,6 +83,7 @@ module.exports = yeoman.Base.extend({
 
     const pConfig = JSON.parse(await readFileAsync(d("package.json")));
     // Copy files directly
+    this.fs.copy(t("_babelrc"), d(".babelrc"));
     this.fs.copy(t("_gitignore"), d(".gitignore"));
     this.fs.copy(t("tsconfig.json"), d("tsconfig.json"));
     // Make directories

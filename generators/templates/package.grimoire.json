@@ -36,9 +36,8 @@
   "scripts": {
     "start": "cauldron build --watch --server",
     "build": "cauldron build",
-    "build-es5":"cauldron build --babel",
     "test": "inquisitor",
-    "prepublish": "cauldron build --babelSeparated && inquisitor && npm run doc",
+    "prepublish": "cauldron build && inquisitor && npm run doc",
     "doc": "cauldron doc",
     "scaffold":"cauldron scaffold"
   }

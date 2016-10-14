@@ -37,7 +37,7 @@
     "start": "cauldron build --watch --server",
     "build": "cauldron build",
     "test": "inquisitor",
-    "prepublish": "cauldron build && inquisitor && npm run doc",
+    "prepublish": "cauldron build --babelSeparated && inquisitor && npm run doc",
     "doc": "cauldron doc",
     "scaffold":"cauldron scaffold"
   }
