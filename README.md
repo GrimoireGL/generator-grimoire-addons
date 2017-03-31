@@ -1,5 +1,7 @@
 # generator-grimoire-addons
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/GrimoireGL/generator-grimoire-addons.svg)](https://greenkeeper.io/)
+
 > The generator for Grimoire.js addons
 
 ## Installation
